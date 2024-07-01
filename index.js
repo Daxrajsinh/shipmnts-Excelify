@@ -43,9 +43,13 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 const CompanyModel = require('./models/company');
 const ContactModel = require('./models/contact');
 
+// Initialize arrays to hold uploaded data
+let companiesData = [];
+let contactsData = [];
+
 app.get('/', async (req, res) => {
   try {
-    res.render('home', { companies: [], contacts: [] }); // Initialize with empty arrays
+    res.render('home', { companies: companiesData, contacts: contactsData });
 
   } catch (error) {
     console.log(error);
@@ -58,7 +62,8 @@ app.post('/upload-companies', upload.single('excel'), async (req, res) => {
     const workbook = XLSX.readFile(req.file.path);
     const sheet_namelist = workbook.SheetNames;
     const xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
-    res.render('home', { companies: xlData, contacts: [] }); // Render with uploaded data only
+    companiesData = xlData; // Update companiesData with uploaded data
+    res.redirect('/'); // Redirect to render updated data
 
   } catch (error) {
     console.log(error);
@@ -71,7 +76,8 @@ app.post('/upload-contacts', upload.single('excel'), async (req, res) => {
     const workbook = XLSX.readFile(req.file.path);
     const sheet_namelist = workbook.SheetNames;
     const xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
-    res.render('home', { contacts: xlData, companies: [] }); // Render with uploaded data only
+    contactsData = xlData; // Update contactsData with uploaded data
+    res.redirect('/'); // Redirect to render updated data
 
   } catch (error) {
     console.log(error);

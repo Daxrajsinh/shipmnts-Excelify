@@ -91,6 +91,7 @@
                     <th>Phone</th>
                     <th>Date of Birth</th>
                     <th>Contact Type</th>
+                    <th>Company Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,8 +100,9 @@
                         <td><%= contact.name %></td>
                         <td><%= contact.email %></td>
                         <td><%= contact.phone %></td>
-                        <td><%= contact.dob %></td>
-                        <td><%= contact.type %></td>
+                        <td><%= contact.birth %></td>
+                        <td><%= contact.contact_type %></td>
+                        <td><%= contact.company_id %></td>
                     </tr>
                 <% }) %>
             </tbody>
