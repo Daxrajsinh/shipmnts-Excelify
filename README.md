@@ -1,6 +1,9 @@
 # Excelify
 
 Excelify is a web application built with Node.js, Express, MongoDB, and EJS, designed to upload Excel sheets, visualize data, and store it in a MongoDB database.
+![image](https://github.com/Daxrajsinh/shipmnts-Excelify/assets/107194145/d6eba953-0704-4816-a804-22a54abb357c)
+![image](https://github.com/Daxrajsinh/shipmnts-Excelify/assets/107194145/c9fbea25-efd4-4990-a7fa-034823296db4)
+
 
 ## Features
 
