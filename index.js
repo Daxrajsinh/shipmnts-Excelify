@@ -43,42 +43,39 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 const CompanyModel = require('./models/company');
 const ContactModel = require('./models/contact');
 
-let companies = [];
-let contacts = [];
-
 app.get('/', async (req, res) => {
   try {
-    companies = await CompanyModel.find();
-    contacts = await ContactModel.find();
-    res.render('home', { companies, contacts });
+    res.render('home', { companies: [], contacts: [] }); // Initialize with empty arrays
+
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 app.post('/upload-companies', upload.single('excel'), async (req, res) => {
   try {
-    var workbook = XLSX.readFile(req.file.path);
-    var sheet_namelist = workbook.SheetNames;
-    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
-    await CompanyModel.insertMany(xlData);
-    companies = await CompanyModel.find();
-    res.render('home', { companies, contacts });
+    const workbook = XLSX.readFile(req.file.path);
+    const sheet_namelist = workbook.SheetNames;
+    const xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
+    res.render('home', { companies: xlData, contacts: [] }); // Render with uploaded data only
+
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
 app.post('/upload-contacts', upload.single('excel'), async (req, res) => {
   try {
-    var workbook = XLSX.readFile(req.file.path);
-    var sheet_namelist = workbook.SheetNames;
-    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
-    await ContactModel.insertMany(xlData);
-    contacts = await ContactModel.find();
-    res.render('home', { contacts, companies });
+    const workbook = XLSX.readFile(req.file.path);
+    const sheet_namelist = workbook.SheetNames;
+    const xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
+    res.render('home', { contacts: xlData, companies: [] }); // Render with uploaded data only
+
   } catch (error) {
     console.log(error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
