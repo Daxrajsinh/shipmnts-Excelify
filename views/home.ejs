@@ -4,115 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Excelsheet</title>
+    <title>Excelify</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.css">
 </head>
 <body>
-<div class="fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Excelify</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Excelify</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
 
-<div>
-    <div class="row" style="margin-top:125px; margin-left:40%; margin-right:10%; width: fit-content;">
-        <div class="lg-6">
-            <div class="card border-danger mb-3" style="max-width: 20rem;">
-                <div class="card-header">Upload Excel File for COMPANIES</div>
+<p style="font-size: 24px; font-weight: bold; color: #007bff; text-align: center;">Upload Excel Sheet, Visualize, and Store Your Excel Data Easily!</p>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">Upload Excel File for Companies</div>
                 <div class="card-body">
                     <form action="/upload-companies" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="excel">Browse File</label>
-                            <input type="file" class="form-control" name="excel" required><br><br>
-                            <input type="submit" value="Confirm">
+                            <label for="excel">Choose File</label>
+                            <input type="file" class="form-control-file" name="excel" required>
                         </div>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row" style="margin-top:125px; margin-left:40%; margin-right:10%; width: fit-content;">
-        <div class="lg-6">
-            <div class="card border-danger mb-3" style="max-width: 20rem;">
-                <div class="card-header">Upload Excel File for CONTACTS</div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">Upload Excel File for Contacts</div>
                 <div class="card-body">
                     <form action="/upload-contacts" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="excel">Browse File</label>
-                            <input type="file" class="form-control" name="excel" required><br><br>
-                            <input type="submit" value="Confirm">
+                            <label for="excel">Choose File</label>
+                            <input type="file" class="form-control-file" name="excel" required>
                         </div>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <% if (companies.length > 0) { %>
+        <h3>Companies</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                    <th>Email</th>
+                    <th>Number of Employees</th>
+                    <th>Founded Date</th>
+                    <th>Industry Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% companies.forEach(company => { %>
+                    <tr>
+                        <td><%= company.name %></td>
+                        <td><%= company.address %></td>
+                        <td><%= company.phone %></td>
+                        <td><%= company.website %></td>
+                        <td><%= company.email %></td>
+                        <td><%= company.n_employees %></td>
+                        <td><%= company.founded_date %></td>
+                        <td><%= company.industry_type %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <% if (contacts.length > 0) { %>
+        <h3>Contacts</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>Contact Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% contacts.forEach(contact => { %>
+                    <tr>
+                        <td><%= contact.name %></td>
+                        <td><%= contact.email %></td>
+                        <td><%= contact.phone %></td>
+                        <td><%= contact.dob %></td>
+                        <td><%= contact.type %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
 </div>
-
-<% if (companies.length > 0) { %>
-    <h3>Companies</h3>
-    <table class="table table-hover" border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Website</th>
-                <th>Email</th>
-                <th>Number of Employees</th>
-                <th>Founded Date</th>
-                <th>Industry Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% companies.forEach(company => { %>
-                <tr>
-                    <td><%= company.name %></td>
-                    <td><%= company.address %></td>
-                    <td><%= company.phone %></td>
-                    <td><%= company.website %></td>
-                    <td><%= company.email %></td>
-                    <td><%= company.n_employees %></td>
-                    <td><%= company.founded_date %></td>
-                    <td><%= company.industry_type %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } %>
-
-<% if (contacts.length > 0) { %>
-    <h3>Contacts</h3>
-    <table class="table table-hover" border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Date of Birth</th>
-                <th>Contact Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% contacts.forEach(contact => { %>
-                <tr>
-                    <td><%= contact.name %></td>
-                    <td><%= contact.email %></td>
-                    <td><%= contact.phone %></td>
-                    <td><%= contact.dob %></td>
-                    <td><%= contact.type %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } %>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>   
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
