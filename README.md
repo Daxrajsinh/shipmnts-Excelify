@@ -25,7 +25,7 @@ https://shipmnts-excelify.onrender.com/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/excelify.git
+   git clone https://github.com/Daxrajsinh/shipmnts-Excelify.git
    cd excelify
 
 2. **Install Dependencies:**
