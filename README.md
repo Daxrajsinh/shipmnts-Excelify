@@ -6,8 +6,7 @@ Excelify is a web application built with Node.js, Express, MongoDB, and EJS, des
 https://shipmnts-excelify.onrender.com/
 
 ![image](https://github.com/Daxrajsinh/shipmnts-Excelify/assets/107194145/d6eba953-0704-4816-a804-22a54abb357c)<br><br>
-![image](https://github.com/Daxrajsinh/shipmnts-Excelify/assets/107194145/5d1b3141-67d9-4ca4-8509-59249aec859d)
-
+![image](https://github.com/Daxrajsinh/shipmnts-Excelify/assets/107194145/5d5554ed-7269-405d-8290-09fc172b93e0)
 
 ## Features
 
