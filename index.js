@@ -29,7 +29,17 @@ var storage = multer.diskStorage({
     }
   });
 
-var upload = multer({ storage: storage });
+  const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limiting file size to 5MB
+    fileFilter: function (req, file, cb) {
+      if (file.mimetype !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        return cb(new Error('Only Excel files are allowed'));
+      }
+      cb(null, true);
+    }
+  });
+  
 
 // Set the template engine
 app.set('view engine', 'ejs');
