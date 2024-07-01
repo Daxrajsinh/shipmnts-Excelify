@@ -13,6 +13,7 @@ var companySchema = new mongoose.Schema({
     founded_date:Date,
     industry_type: {
         type: String,
+        required:true,
         enum: ['Technology', 'Finance', 'Healthcare', 'Retail', 'Manufacturing', 'Other']
     },
 });

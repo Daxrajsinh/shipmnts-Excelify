@@ -19,56 +19,67 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
-//multer
+// Multer setup
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/uploads')
+      cb(null, './public/uploads');
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname)
+      cb(null, file.originalname);
     }
   });
-  
+
 var upload = multer({ storage: storage });
 
-  //set the template engine
-app.set('view engine','ejs');
+// Set the template engine
+app.set('view engine', 'ejs');
 
-//fetch data from the request
-app.use(bodyParser.urlencoded({extended:false}));
+// Fetch data from the request
+app.use(bodyParser.urlencoded({ extended: false }));
 
-//static folder path
-app.use(express.static(path.resolve(__dirname,'public')));
+// Static folder path
+app.use(express.static(path.resolve(__dirname, 'public')));
 
-const Comapanymodel = require('./models/company');
+const CompanyModel = require('./models/company');
+const ContactModel = require('./models/contact');
 
-app.get('/', async (req,res)=>{
-    try {
-        const companies = await Comapanymodel.find();
-        if(companies!=''){
-            res.render('home', {result:companies});
-        }else{
-            res.render('home', {result:{}});
-        }
-    } catch (error) {
-        console.log(error);
-    }
+let companies = [];
+let contacts = [];
+
+app.get('/', async (req, res) => {
+  try {
+    companies = await CompanyModel.find();
+    contacts = await ContactModel.find();
+    res.render('home', { companies, contacts });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
- app.post('/',upload.single('excel'), async (req,res)=>{
-    var workbook =  XLSX.readFile(req.file.path);
+app.post('/upload-companies', upload.single('excel'), async (req, res) => {
+  try {
+    var workbook = XLSX.readFile(req.file.path);
     var sheet_namelist = workbook.SheetNames;
-    var x=0;
-    sheet_namelist.forEach(async element => {
-        var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[x]]);
-        try {
-            await Comapanymodel.insertMany(xlData);
-        } catch (error) {
-            console.log(error);
-        }
-        x++;
-    });
-    res.redirect('/');
-  });
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
+    await CompanyModel.insertMany(xlData);
+    companies = await CompanyModel.find();
+    res.render('home', { companies, contacts });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post('/upload-contacts', upload.single('excel'), async (req, res) => {
+  try {
+    var workbook = XLSX.readFile(req.file.path);
+    var sheet_namelist = workbook.SheetNames;
+    var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_namelist[0]]);
+    await ContactModel.insertMany(xlData);
+    contacts = await ContactModel.find();
+    res.render('home', { contacts, companies });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
